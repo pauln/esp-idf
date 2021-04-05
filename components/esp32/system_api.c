@@ -116,7 +116,9 @@ esp_err_t esp_efuse_mac_get_default(uint8_t* mac)
             }
         } else {
             ESP_LOGE(TAG, "Base MAC address from BLK0 of EFUSE CRC error, efuse_crc = 0x%02x; calc_crc = 0x%02x", efuse_crc, calc_crc);
-            abort();
+            // Xiaomi ESP32-solo chips fail this CRC check.
+            // If we abort here, it will prevent these from booting.
+            // abort();
         }
     }
     return ESP_OK;
